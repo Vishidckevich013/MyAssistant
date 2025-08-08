@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { IonPage, IonContent, IonList, IonItem, IonLabel, IonSelect, IonSelectOption, IonButton, IonInput } from '@ionic/react';
 
+type Task = { id: string; title: string; status: string; created_at: string };
+
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState('');
   const [newStatus, setNewStatus] = useState('todo');
 
@@ -11,7 +13,7 @@ export default function TasksPage() {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return;
     const { data } = await supabase.from('tasks').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
-    setTasks(data || []);
+    setTasks((data as Task[]) || []);
   };
 
   const addTask = async () => {
