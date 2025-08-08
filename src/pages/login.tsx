@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { IonPage, IonContent, IonInput, IonButton, IonText } from '@ionic/react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -23,31 +22,31 @@ export default function LoginPage() {
   };
 
   return (
-    <IonPage>
-      <IonContent className="ion-padding">
-        <h2>{isRegister ? 'Регистрация' : 'Вход'}</h2>
-        <IonInput
-          placeholder="Email"
-          value={email}
-          onIonChange={e => setEmail(e.detail.value!)}
-          type="email"
-        />
-        <IonInput
-          placeholder="Пароль"
-          value={password}
-          onIonChange={e => setPassword(e.detail.value!)}
-          type="password"
-        />
-        {isRegister ? (
-          <IonButton expand="block" onClick={handleRegister}>Зарегистрироваться</IonButton>
-        ) : (
-          <IonButton expand="block" onClick={handleLogin}>Войти</IonButton>
-        )}
-        <IonButton fill="clear" onClick={() => setIsRegister(!isRegister)}>
-          {isRegister ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться'}
-        </IonButton>
-        {error && <IonText color="danger">{error}</IonText>}
-      </IonContent>
-    </IonPage>
+    <div className="max-w-md mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">{isRegister ? 'Регистрация' : 'Вход'}</h2>
+      <input
+        className="w-full border rounded p-2 mb-2"
+        placeholder="Email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        type="email"
+      />
+      <input
+        className="w-full border rounded p-2 mb-2"
+        placeholder="Пароль"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        type="password"
+      />
+      {isRegister ? (
+        <button className="w-full bg-blue-500 text-white py-2 rounded mb-2" onClick={handleRegister}>Зарегистрироваться</button>
+      ) : (
+        <button className="w-full bg-blue-500 text-white py-2 rounded mb-2" onClick={handleLogin}>Войти</button>
+      )}
+      <button className="w-full text-blue-500 py-2" onClick={() => setIsRegister(!isRegister)}>
+        {isRegister ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться'}
+      </button>
+      {error && <div className="text-red-500 mt-2">{error}</div>}
+    </div>
   );
 }
