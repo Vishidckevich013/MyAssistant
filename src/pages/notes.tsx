@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { IonPage, IonContent, IonList, IonItem, IonLabel, IonButton, IonInput } from '@ionic/react';
 
 type Note = { id: string; content: string; created_at: string };
 
@@ -28,23 +27,22 @@ export default function NotesPage() {
   }, []);
 
   return (
-    <IonPage>
-      <IonContent className="ion-padding">
-        <h2>Заметки</h2>
-        <IonInput
-          placeholder="Новая заметка"
-          value={newNote}
-          onIonChange={e => setNewNote(e.detail.value!)}
-        />
-        <IonButton expand="block" onClick={addNote}>Добавить заметку</IonButton>
-        <IonList>
-          {notes.map(note => (
-            <IonItem key={note.id}>
-              <IonLabel>{note.content}</IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
-      </IonContent>
-    </IonPage>
+    <div className="max-w-md mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Заметки</h2>
+      <input
+        className="w-full border rounded p-2 mb-2"
+        placeholder="Новая заметка"
+        value={newNote}
+        onChange={e => setNewNote(e.target.value)}
+      />
+      <button className="w-full bg-blue-500 text-white py-2 rounded mb-4" onClick={addNote}>Добавить заметку</button>
+      <ul className="space-y-2">
+        {notes.map(note => (
+          <li key={note.id} className="border rounded p-2 bg-white shadow">
+            {note.content}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

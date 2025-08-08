@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { IonPage, IonContent, IonList, IonItem, IonLabel, IonSelect, IonSelectOption, IonButton, IonInput } from '@ionic/react';
 
 type Task = { id: string; title: string; status: string; created_at: string };
 
@@ -35,31 +34,38 @@ export default function TasksPage() {
   }, []);
 
   return (
-    <IonPage>
-      <IonContent className="ion-padding">
-        <h2>Задачи</h2>
-        <IonInput
-          placeholder="Новая задача"
-          value={newTask}
-          onIonChange={e => setNewTask(e.detail.value!)}
-        />
-        <IonSelect value={newStatus} placeholder="Статус" onIonChange={e => setNewStatus(e.detail.value)}>
-          <IonSelectOption value="todo">В работе</IonSelectOption>
-          <IonSelectOption value="done">Выполнено</IonSelectOption>
-        </IonSelect>
-        <IonButton expand="block" onClick={addTask}>Добавить задачу</IonButton>
-        <IonList>
-          {tasks.map(task => (
-            <IonItem key={task.id}>
-              <IonLabel>{task.title}</IonLabel>
-              <IonSelect value={task.status} onIonChange={e => updateStatus(task.id, e.detail.value)}>
-                <IonSelectOption value="todo">В работе</IonSelectOption>
-                <IonSelectOption value="done">Выполнено</IonSelectOption>
-              </IonSelect>
-            </IonItem>
-          ))}
-        </IonList>
-      </IonContent>
-    </IonPage>
+    <div className="max-w-md mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Задачи</h2>
+      <input
+        className="w-full border rounded p-2 mb-2"
+        placeholder="Новая задача"
+        value={newTask}
+        onChange={e => setNewTask(e.target.value)}
+      />
+      <select
+        className="w-full border rounded p-2 mb-2"
+        value={newStatus}
+        onChange={e => setNewStatus(e.target.value)}
+      >
+        <option value="todo">В работе</option>
+        <option value="done">Выполнено</option>
+      </select>
+      <button className="w-full bg-blue-500 text-white py-2 rounded mb-4" onClick={addTask}>Добавить задачу</button>
+      <ul className="space-y-2">
+        {tasks.map(task => (
+          <li key={task.id} className="border rounded p-2 bg-white shadow flex items-center justify-between">
+            <span>{task.title}</span>
+            <select
+              className="border rounded p-1"
+              value={task.status}
+              onChange={e => updateStatus(task.id, e.target.value)}
+            >
+              <option value="todo">В работе</option>
+              <option value="done">Выполнено</option>
+            </select>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
